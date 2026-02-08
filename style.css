@@ -98,7 +98,7 @@ h3 {
     color: var(--text-color);
     text-decoration: none;
     padding: 12px 0;
-    border-bottom: 1px solid rgba(0, 255, 65, 0.3);
+    border-bottom: 1px solid var(--text-color);
     font-size: 0.8rem;
     letter-spacing: 1px;
     transition: all 0.15s ease;
@@ -121,4 +121,5 @@ h3 {
     letter-spacing: 3px;
     text-align: center;
 }
+
 
