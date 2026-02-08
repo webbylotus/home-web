@@ -1,4 +1,4 @@
-## MAINFRAME_APPLICATIONS
+## MAINFRAME
 - [COPYPARTY](https://cloud.erucaeutstellae.com)
 - [PORTAINER](https://portainer.erucaeutstellae.com)
 - [NGINX](https://nginx.erucaeutstellae.com)
@@ -22,6 +22,12 @@
 - [REDDIT_ARCHIVE](https://reddit.com)
 - [PRIVACY GUIDES](https://privacyguides.net)
 
+## COMMS
+- [GMAIL](https://mail.google.com)
+- [OUTLOOK](https://outlook.live.com)
+- [PROTONMAIL](https://mail.proton.me)
+- [TUTA](https://mail.tutanota.com)
+
 ## ARCHIVES
 - [WAYBACK_MACHINE](https://archive.org)
 
@@ -31,4 +37,5 @@
 ## OUTER SPACE
 - [SPACE SPEAK](https://www.spacespeak.com/)
 - [WORLD WIDE TELESCOPE](https://worldwidetelescope.org)
+
 
