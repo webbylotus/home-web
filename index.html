@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MU/TH/UR_6000</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Michroma&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="crt-overlay"></div>
+    <div class="interface-container">
+        
+        <header class="header">
+            <div class="status-box">SYSTEM_STATUS: <span class="blink">OPERATIONAL</span></div>
+            <div id="holocene-clock" class="clock">LOAD_TIME...</div>
+        </header>
+
+        <main id="link-grid" class="grid-container">
+            </main>
+
+        <footer class="terminal-footer">
+            <div class="ticker-wrap">
+                <div id="existential-ticker" class="ticker-content">CONNECTING TO MAIN FRAME...</div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // 1. Holocene Clock Logic (12,026 HE)
+        function updateClock() {
+            const now = new Date();
+            const heYear = (now.getFullYear() + 10000).toLocaleString().replace(',', '');
+            const timeStr = now.toLocaleTimeString('en-GB', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            const dateStr = now.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit' });
+            document.getElementById('holocene-clock').innerText = `${heYear}HE // ${dateStr} // ${timeStr}`;
+        }
+        setInterval(updateClock, 1000);
+
+        // 2. Markdown Parser for links.md
+        async function loadLinks() {
+            const response = await fetch('links.md');
+            const text = await response.text();
+            const grid = document.getElementById('link-grid');
+            
+            const lines = text.split('\n');
+            let currentSection = null;
+
+            lines.forEach(line => {
+                if (line.startsWith('## ')) {
+                    currentSection = document.createElement('div');
+                    currentSection.className = 'link-section';
+                    currentSection.innerHTML = `<h3>[ ${line.replace('## ', '').trim()} ]</h3>`;
+                    grid.appendChild(currentSection);
+                } else if (line.startsWith('- [') && currentSection) {
+                    const label = line.match(/\[(.*?)\]/)[1];
+                    const url = line.match(/\((.*?)\)/)[1];
+                    currentSection.innerHTML += `<a href="${url}" class="link-item">${label}</a>`;
+                }
+            });
+        }
+
+        // 3. Quotes Ticker from quotes.txt
+        async function loadQuotes() {
+            const response = await fetch('quotes.txt');
+            const text = await response.text();
+            const quotes = text.split('\n').filter(q => q.trim() !== "");
+            const ticker = document.getElementById('existential-ticker');
+            
+            let i = 0;
+            const updateQuote = () => {
+                ticker.style.opacity = 0; // Fade effect
+                setTimeout(() => {
+                    ticker.innerText = quotes[i];
+                    ticker.style.opacity = 1;
+                    i = (i + 1) % quotes.length;
+                }, 500);
+            };
+            
+            updateQuote();
+            setInterval(updateQuote, 8000); // Change quote every 8 seconds
+        }
+
+        loadLinks();
+        loadQuotes();
+        updateClock();
+    </script>
+</body>
+</html>
