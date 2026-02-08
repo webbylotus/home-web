@@ -3,7 +3,6 @@
     --text-color: #00ff41;
     --accent-color: #ffb000;
     --font-main: 'Michroma', sans-serif;
-    --weight-bold: 5    00;
 }
 
 @media (prefers-color-scheme: light) {
@@ -25,16 +24,6 @@ body {
     flex-direction: column;
 }
 
-/* CRT Overlay */
-.crt-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
-                linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
-    background-size: 100% 3px, 3px 100%;
-    pointer-events: none;
-    z-index: 100;
-}
-
 /* SEARCH TERMINAL SECTION */
 .search-container {
     margin-top: 2rem;
@@ -45,7 +34,7 @@ body {
     background: rgba(0,0,0,0.3);
 }
 
-.search-container span { margin-right: 15px; font-weight: var(--weight-bold); }
+.search-container span { margin-right: 15px;}
 
 #terminal-input {
     background: transparent;
@@ -58,6 +47,16 @@ body {
     text-transform: uppercase;
 }
 
+/* CRT Overlay */
+.crt-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
+                linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+    background-size: 100% 3px, 3px 100%;
+    pointer-events: none;
+    z-index: 100;
+}
+
 .interface-container {
     padding: 2.5rem;
     flex-grow: 1;
@@ -66,7 +65,7 @@ body {
     z-index: 10;
 }
 
-.corp-header {
+.header {
     display: flex;
     justify-content: space-between;
     border-bottom: 3px solid var(--text-color);
@@ -105,21 +104,21 @@ h3 {
     transition: all 0.15s ease;
 }
 
-.link-item:focus, .link-item:hover {
+.link-item:hover {
     padding-left: 15px;
     background: rgba(0, 255, 65, 0.1);
 }
 
 .terminal-footer {
-    border-top: 4px solid var(--text-color);
+    border-top: 1px solid var(--text-color);
     padding: 1rem 2.5rem;
-    background: var(--text-color);
-    color: var(--bg-color);
+    background: rgba(0,0,0,0.5);
 }
 
 .ticker-content {
-    transition: opacity 0.5s ease;
-    font-size: 0.9rem;
+    transition: opacity 0.6s ease;
+    font-size: 0.7rem;
     letter-spacing: 3px;
     text-align: center;
+    font-weight: bold;
 }
