@@ -61,6 +61,15 @@ body {
 }
 
 /* CRT Overlay */
+
+@keyframes flicker {
+  0% { opacity: 0.27861; }
+  5% { opacity: 0.34769; }
+  10% { opacity: 0.23604; }
+  /* ... you get the idea ... */
+  100% { opacity: 0.25; }
+}
+
 .crt-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
@@ -68,6 +77,7 @@ body {
     background-size: 100% 3px, 3px 100%;
     pointer-events: none;
     z-index: 100;
+    animation: flicker 0.15s infinite;
 }
 
 .interface-container {
@@ -131,11 +141,14 @@ h3 {
 }
 
 .ticker-content {
-    transition: opacity 0.5s ease;
+    transition: opacity 1s ease-in-out;
     font-size: 0.7rem;
     letter-spacing: 3px;
     text-align: center;
 }
+
+
+
 
 
 
