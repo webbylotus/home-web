@@ -96,7 +96,7 @@
             
             // 4. Pronounced Ticker
                 async function loadQuotes() {
-                    const response = await fetch('quotes.txt');
+                    const response = await fetch('quotes.md');
                     const text = await response.text();
                     const quotes = text.split('\n').filter(q => q.trim() !== "");
                     const ticker = document.getElementById('existential-ticker');
@@ -126,6 +126,7 @@
 </body>
 
 </html>
+
 
 
 
