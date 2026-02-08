@@ -1,16 +1,15 @@
 :root {
     --bg-color: #030303;
-    --text-color: #00ff41; /* MU/TH/UR GREEN */
-    --accent-color: #00ff41;
+    --text-color: #00ff41;
+    --accent-color: #ffb000;
     --font-main: 'Michroma', sans-serif;
-    --weight-bold: 700;
+    --weight-bold: 5    00;
 }
 
-/* LIGHT MODE: VINTAGE AMBER CRT */
 @media (prefers-color-scheme: light) {
     :root {
-        --bg-color: #2b2200; /* Dark deep amber background */
-        --text-color: #ffb000; /* Bright amber text */
+        --bg-color: #2b2200;
+        --text-color: #ffb000;
         --accent-color: #ffcc00;
     }
 }
@@ -19,13 +18,21 @@ body {
     background-color: var(--bg-color);
     color: var(--text-color);
     font-family: var(--font-main);
-    font-weight: 400;
     text-transform: uppercase;
     margin: 0;
     height: 100vh;
     display: flex;
     flex-direction: column;
-    letter-spacing: 1px;
+}
+
+/* CRT Overlay */
+.crt-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
+                linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+    background-size: 100% 3px, 3px 100%;
+    pointer-events: none;
+    z-index: 100;
 }
 
 /* SEARCH TERMINAL SECTION */
@@ -45,63 +52,74 @@ body {
     border: none;
     color: var(--text-color);
     font-family: var(--font-main);
-    font-size: 1.2rem;
+    font-size: 0.8rem;
     width: 100%;
     outline: none;
     text-transform: uppercase;
 }
 
-/* HEADERS: SUPER BOLD (EUROSTILE EXTENDED STYLE) */
+.interface-container {
+    padding: 2.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    z-index: 10;
+}
+
 .corp-header {
-    font-weight: var(--weight-bold);
-    font-size: 1.4rem;
-    letter-spacing: 4px;
-    border-bottom: 6px solid var(--text-color);
-    display: block;
-    margin-bottom: 1rem;
-    padding-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 3px solid var(--text-color);
+    padding-bottom: 0.5rem;
+    font-size: 0.75rem;
+    letter-spacing: 1.5px;
+}
+
+.blink { animation: blink-animation 1s steps(5, start) infinite; }
+@keyframes blink-animation { to { visibility: hidden; } }
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 3rem;
+    margin-top: 2rem;
+}
+
+h3 {
+    font-size: 0.9rem;
+    background: var(--text-color);
+    color: var(--bg-color);
+    padding: 4px 10px;
+    display: inline-block;
+    margin-bottom: 1.5rem;
 }
 
 .link-item {
-    font-weight: var(--weight-bold);
     display: block;
     color: var(--text-color);
     text-decoration: none;
-    padding: 15px 0;
-    border-bottom: 1px solid rgba(0, 255, 65, 0.2);
-    font-size: 0.9rem;
-    transition: 0.2s;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(0, 255, 65, 0.3);
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    transition: all 0.15s ease;
 }
 
 .link-item:focus, .link-item:hover {
-    background: var(--text-color);
-    color: var(--bg-color);
-    padding-left: 20px;
-    outline: none;
+    padding-left: 15px;
+    background: rgba(0, 255, 65, 0.1);
 }
 
-/* PRONOUNCED TICKER */
 .terminal-footer {
     border-top: 4px solid var(--text-color);
+    padding: 1rem 2.5rem;
     background: var(--text-color);
     color: var(--bg-color);
-    padding: 15px;
-    font-weight: var(--weight-bold);
 }
 
 .ticker-content {
-    font-size: 1rem;
-    letter-spacing: 2px;
-    text-align: left;
-    white-space: nowrap;
-    overflow: hidden;
-}
-
-/* CRT OVERLAY */
-.crt-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%);
-    background-size: 100% 4px;
-    pointer-events: none;
-    z-index: 1000;
+    transition: opacity 0.5s ease;
+    font-size: 0.9rem;
+    letter-spacing: 3px;
+    text-align: center;
 }
