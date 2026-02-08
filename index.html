@@ -12,7 +12,7 @@
     <div class="interface-container">
         
         <header class="header">
-            <div class="status-box">MU/TH/UR_6000</div>
+            <div class="status-box">MU/TH/UR_6000</div></br>
             <div class="status-box">MAINFRAME_UPLINK: <span class="blink">ESTABLISHED</span></div>
             <div id="holocene-clock" class="clock">LOAD_TIME...</div>
         </header>
@@ -73,16 +73,24 @@
             
             // 4. Pronounced Ticker
             async function loadQuotes() {
-                const response = await fetch('quotes.md');
+                const response = await fetch('quotes.txt');
                 const text = await response.text();
                 const quotes = text.split('\n').filter(q => q.trim() !== "");
                 const ticker = document.getElementById('existential-ticker');
-                let i = 0;
-                setInterval(() => {
-                    ticker.innerText = `> ${quotes[i]}`;
+            
+            let i = 0;
+            const updateQuote = () => {
+                ticker.style.opacity = 0; // Fade effect
+                setTimeout(() => {
+                    ticker.innerText = quotes[i];
+                    ticker.style.opacity = 1;
                     i = (i + 1) % quotes.length;
-                }, 6000);
-            }
+                }, 500);
+            };
+            
+            updateQuote();
+            setInterval(updateQuote, 8000); // Change quote every 8 seconds
+        }
             
             loadLinks();
             loadQuotes();
@@ -91,5 +99,6 @@
 </body>
 
 </html>
+
 
 
