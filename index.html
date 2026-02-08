@@ -6,7 +6,6 @@
     <title>MU/TH/UR_6000</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Michroma&display=swap" rel="stylesheet">
-    <audio id="click-sound" src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3" preload="auto"></audio>
 </head>
 <body>
     <div class="crt-overlay"></div>
@@ -14,7 +13,8 @@
         
         <header class="header">
             <div class="status-box">MU/TH/UR_6000</div>
-            <div class="status-box">MAINFRAME_UPLINK: <span class="blink">ESTABLISHED</span></div>
+            <!--<div class="status-box">MAINFRAME_UPLINK: <span class="blink">ESTABLISHED</span></div>-->
+            <div class="status-box"> MAINFRAME_UPLINK: <span id="server-status" class="blink">CONNECTING...</span></div>
             <div id="holocene-clock" class="clock">LOAD_TIME...</div>
         </header>
 
@@ -31,40 +31,28 @@
     </div>
 
     <script>
-                            // 1. Audio Engine: Processing Hum & Clicks
-                    const clickSfx = document.getElementById('click-sound');
-                    clickSfx.volume = 0.2;
+                               // 1. Homelab Ping Logic
+                async function checkHomelab() {
+                    const serverIp = "https://cloud.erucaeutstellae.com";
+                    const statusEl = document.getElementById('server-status');
                 
-                    function playHum() {
-                        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                        const oscillator = audioCtx.createOscillator();
-                        const gainNode = audioCtx.createGain();
-                
-                        oscillator.type = 'sawtooth';
-                        oscillator.frequency.setValueAtTime(50, audioCtx.currentTime); // Low frequency hum
-                        
-                        const lowpass = audioCtx.createBiquadFilter();
-                        lowpass.type = 'lowpass';
-                        lowpass.frequency.setValueAtTime(150, audioCtx.currentTime);
-                
-                        gainNode.gain.setValueAtTime(0.02, audioCtx.currentTime); // Keep it very subtle
-                        
-                        oscillator.connect(lowpass);
-                        lowpass.connect(gainNode);
-                        gainNode.connect(audioCtx.destination);
-                        
-                        oscillator.start();
+                    try {
+                        // We use 'no-cors' because we don't need to read the data, 
+                        // just see if the server responds at all.
+                        await fetch(serverIp, { mode: 'no-cors', cache: 'no-cache' });
+                        statusEl.innerText = "ESTABLISHED";
+                        statusEl.style.color = "var(--text-color)";
+                        statusEl.classList.remove('blink');
+                    } catch (e) {
+                        statusEl.innerText = "OFFLINE";
+                        statusEl.style.color = "var(--accent-color)"; // Turns Amber/Red
+                        statusEl.classList.add('blink');
                     }
+                }
                 
-                    // Play hum on first interaction (browsers block auto-play audio)
-                    window.addEventListener('keydown', () => { playHum(); }, { once: true });
-                    window.addEventListener('click', () => { playHum(); }, { once: true });
-                
-                    // Keyboard Click Sound
-                    document.addEventListener('keydown', (e) => {
-                        clickSfx.currentTime = 0;
-                        clickSfx.play();
-                    });
+                // Run on load and every 30 seconds
+                checkHomelab();
+                setInterval(checkHomelab, 30000);            
                    // 1. Holocene Clock
             function updateClock() {
                 const now = new Date();
@@ -134,6 +122,7 @@
 </body>
 
 </html>
+
 
 
 
