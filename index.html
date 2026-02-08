@@ -95,21 +95,29 @@
             }
             
             // 4. Pronounced Ticker
-            async function loadQuotes() {
-                const response = await fetch('quotes.md');
-                const text = await response.text();
-                const quotes = text.split('\n').filter(q => q.trim() !== "");
-                const ticker = document.getElementById('existential-ticker');
-            
-            const updateQuote = () => {
-            // ticker.style.opacity = 0; // Fade effect
-            // The one-line randomizer you requested:
-            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-            ticker.innerText = `> ${randomQuote}`;
-        };
-        updateQuote();
-        setInterval(updateQuote, 8000);
-    }
+                async function loadQuotes() {
+                    const response = await fetch('quotes.txt');
+                    const text = await response.text();
+                    const quotes = text.split('\n').filter(q => q.trim() !== "");
+                    const ticker = document.getElementById('existential-ticker');
+                    
+                    const updateQuote = () => {
+                        // Start Fade Out
+                        ticker.style.opacity = 0;
+                        
+                        setTimeout(() => {
+                            // Pick a random truth while invisible
+                            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+                            ticker.innerText = `> ${randomQuote}`;
+                            
+                            // Fade In
+                            ticker.style.opacity = 1;
+                        }, 1000); // 1 second of "silence" in the dark
+                    };
+                
+                    updateQuote();
+                    setInterval(updateQuote, 8000); // 8 second cycle
+                }
             
             loadLinks();
             loadQuotes();
@@ -118,6 +126,7 @@
 </body>
 
 </html>
+
 
 
 
