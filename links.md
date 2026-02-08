@@ -10,7 +10,7 @@
 
 ## OFF-WORLD STORAGE
 - [FILEN](https://app.filen.io)
-- [MEGA](htts://mega.nz)
+- [MEGA](https://mega.nz)
 - [GDRIVE](https://drive.google.com)
 
 ## CORE_SYSTEMS
@@ -31,3 +31,4 @@
 ## OUTER SPACE
 - [SPACE SPEAK](https://www.spacespeak.com/)
 - [WORLD WIDE TELESCOPE](https://worldwidetelescope.org)
+
