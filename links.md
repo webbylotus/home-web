@@ -1,8 +1,9 @@
 ## MAINFRAME
+- [TAILNET](https://login.tailscale.com/admin/machines)
 - [COPYPARTY](https://cloud.erucaeutstellae.com)
 - [PORTAINER](https://portainer.erucaeutstellae.com)
 - [NGINX](https://nginx.erucaeutstellae.com)
-- [RX-RESUME](https://rx-resume.erucaeutstellae.com)
+- [RX-RESUME](https://resume.erucaeutstellae.com)
 
 ## MY_SITES
 - [DOMAIN HOME](https://erucaeutstellae.com)
@@ -38,6 +39,7 @@
 ## OUTER SPACE
 - [SPACE SPEAK](https://www.spacespeak.com/)
 - [WORLD WIDE TELESCOPE](https://worldwidetelescope.org)
+
 
 
 
