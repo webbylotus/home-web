@@ -4,6 +4,7 @@
 - [PORTAINER](https://portainer.erucaeutstellae.com)
 - [NGINX](https://nginx.erucaeutstellae.com)
 - [RX-RESUME](https://resume.erucaeutstellae.com)
+- [MUSIC](https://music.erucaeutstellae.com)
 
 ## MY_SITES
 - [DOMAIN HOME](https://erucaeutstellae.com)
@@ -39,6 +40,7 @@
 ## OUTER SPACE
 - [SPACE SPEAK](https://www.spacespeak.com/)
 - [WORLD WIDE TELESCOPE](https://worldwidetelescope.org)
+
 
 
 
