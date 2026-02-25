@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MU/TH/UR_6000_OS</title>
+    <title>MU/TH/UR_6000_SODIUM</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Michroma&display=swap" rel="stylesheet">
 </head>
@@ -15,7 +15,7 @@
             <span id="existential-ticker" class="ticker-content">INITIALIZING...</span>
         </div>
         <div class="system-meta">
-            <div id="holocene-clock"></div>
+            <div id="holocene-clock">12,026HE // 00:00:00</div>
             <div class="status-box">UPLINK: <span id="server-status" class="blink">SEARCHING</span></div>
         </div>
     </header>
@@ -26,11 +26,22 @@
             <input type="text" id="terminal-input" placeholder="COMMAND OR SEARCH..." autofocus autocomplete="off">
         </div>
     
-        <main id="link-grid" class="grid-container"></main>
+        <main id="link-grid" class="grid-container">
+            </main>
     </div>
 
     <script>
-        // --- 1. SEARCH & FILTER LOGIC ---
+        // 1. Holocene Clock Restoration
+        function updateClock() {
+            const now = new Date();
+            const heYear = (now.getFullYear() + 10000).toLocaleString().replace(',', '');
+            const timeStr = now.toLocaleTimeString('en-GB', { hour12: false });
+            const dateStr = now.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit' });
+            document.getElementById('holocene-clock').innerText = `${heYear}HE // ${dateStr} // ${timeStr}`;
+        }
+        setInterval(updateClock, 1000);
+
+        // 2. Search & Link Filter Logic
         const searchInput = document.getElementById('terminal-input');
         
         searchInput.addEventListener('input', function() {
@@ -43,53 +54,63 @@
                 item.style.display = isMatch ? 'block' : 'none';
             });
 
-            // Hide headers if no children are visible
             sections.forEach(section => {
-                const visibleLinks = section.querySelectorAll('.link-item[style="display: block;"]');
+                const visibleLinks = section.querySelectorAll('.link-item:not([style*="display: none"])');
                 section.style.display = visibleLinks.length > 0 || query === "" ? 'block' : 'none';
             });
         });
 
-        searchInput.addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
-                const visibleLinks = document.querySelectorAll('.link-item[style="display: block;"]');
-                // If there's exactly one filtered link, open it. Otherwise, search DuckDuckGo.
-                if (visibleLinks.length === 1) {
-                    window.location.href = visibleLinks[0].href;
-                } else {
-                    window.open(`https://duckduckgo.com/?q=${encodeURIComponent(this.value)}`, '_blank');
-                    this.value = '';
-                }
-            }
-        });
-
-        // --- 2. RESTORED & RANDOMIZED QUOTES (Top Level) ---
+        // 3. Randomized Quotes with Fade
         async function loadQuotes() {
-            const response = await fetch('quotes.md');
-            const text = await response.text();
-            const quotes = text.split('\n').filter(q => q.trim() !== "");
-            const ticker = document.getElementById('existential-ticker');
-            
-            const updateQuote = () => {
-                ticker.style.opacity = 0;
-                setTimeout(() => {
-                    const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-                    ticker.innerText = `[ TRUTH_DATA: ${randomQuote} ]`;
-                    ticker.style.opacity = 1;
-                }, 1000);
-            };
-            updateQuote();
-            setInterval(updateQuote, 12000);
+            try {
+                const response = await fetch('quotes.md');
+                const text = await response.text();
+                const quotes = text.split('\n').filter(q => q.trim() !== "");
+                const ticker = document.getElementById('existential-ticker');
+                
+                const updateQuote = () => {
+                    ticker.style.opacity = 0;
+                    setTimeout(() => {
+                        const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+                        ticker.innerText = `[ TRUTH_DATA: ${randomQuote} ]`;
+                        ticker.style.opacity = 1;
+                    }, 1500);
+                };
+                updateQuote();
+                setInterval(updateQuote, 10000);
+            } catch (e) { console.error("Quotes file missing."); }
         }
 
-        // --- 3. CORE SYSTEMS (Clock/Ping/Links) ---
-        // (Keep your existing checkHomelab, updateClock, and loadLinks functions)
-        // Ensure loadLinks adds style="display: block;" to all items by default.
-        
-        loadLinks();
-        loadQuotes();
-        updateClock();
-        checkHomelab();
+        // 4. Link Loader (Fixed logic to ensure elements exist before styling)
+        async function loadLinks() {
+            try {
+                const response = await fetch('links.md');
+                const text = await response.text();
+                const grid = document.getElementById('link-grid');
+                const lines = text.split('\n');
+                let currentSection = null;
+
+                lines.forEach(line => {
+                    if (line.startsWith('## ')) {
+                        currentSection = document.createElement('div');
+                        currentSection.className = 'link-section';
+                        currentSection.innerHTML = `<h3 class="corp-header">${line.replace('## ', '').trim()}</h3>`;
+                        grid.appendChild(currentSection);
+                    } else if (line.startsWith('- [') && currentSection) {
+                        const label = line.match(/\[(.*?)\]/)[1];
+                        const url = line.match(/\((.*?)\)/)[1];
+                        const link = document.createElement('a');
+                        link.href = url;
+                        link.className = 'link-item';
+                        link.target = "_blank";
+                        link.innerText = label;
+                        currentSection.appendChild(link);
+                    }
+                });
+            } catch (e) { console.error("Links file missing."); }
+        }
+
+        loadLinks(); loadQuotes(); updateClock();
     </script>
 </body>
 </html>
