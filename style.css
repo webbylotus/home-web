@@ -1,8 +1,9 @@
 :root {
-    --bg-color: #0a0800; /* Deep industrial black-brown */
-    --text-color: #ff9900; /* Warm Sodium Lamp / Vintage Amber */
+    --bg-color: #080600; /* Deep black-brown */
+    --text-color: #ff9d00; /* Sodium Amber / Heavy Industrial */
     --font-main: 'Michroma', sans-serif;
-    --ethereal-glow: 0 0 12px rgba(255, 153, 0, 0.7);
+    /* This creates the ethereal bloom from your photos */
+    --bloom: drop-shadow(0 0 8px rgba(255, 157, 0, 0.8));
 }
 
 body {
@@ -14,91 +15,98 @@ body {
     overflow-x: hidden;
 }
 
-/* HEADER: TOP-LEVEL TICKER */
-.os-header {
-    padding: 1.5rem 2rem;
-    border-bottom: 2px solid var(--text-color);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 4px 15px rgba(255, 153, 0, 0.1);
+/* WEYLAND YUTANI HEADER */
+.industrial-header {
+    border-bottom: 4px solid var(--text-color);
+    padding: 2rem;
+    background: linear-gradient(to bottom, #1a1400, #080600);
+}
+
+.wy-logo {
+    font-size: 3.5rem;
+    font-weight: 900;
+    letter-spacing: -2px;
+    filter: var(--bloom);
+    line-height: 1;
+    margin-bottom: 10px;
 }
 
 .ticker-content {
-    font-weight: 900;
-    letter-spacing: 3px;
-    text-shadow: var(--ethereal-glow);
-    transition: opacity 1.5s ease-in-out;
-}
-
-.system-meta {
-    text-align: right;
-    font-size: 0.75rem;
+    font-size: 0.9rem;
     font-weight: 700;
+    letter-spacing: 2px;
+    transition: opacity 1s ease-in-out;
+    filter: var(--bloom);
 }
 
-/* COMMAND PALETTE */
+/* INTERFACE */
 .interface-container { padding: 2rem; }
 
+.system-meta-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    font-weight: 900;
+    margin-bottom: 2rem;
+}
+
 .command-palette {
+    border: 3px solid var(--text-color);
+    padding: 20px;
     margin-bottom: 3rem;
     display: flex;
-    border: 3px solid var(--text-color);
-    padding: 15px;
-    background: rgba(43, 34, 0, 0.3);
+    background: rgba(255, 157, 0, 0.05);
+    filter: var(--bloom);
 }
 
 #terminal-input {
-    background: transparent;
-    border: none;
-    color: var(--text-color);
-    font-family: var(--font-main);
-    font-size: 1.2rem;
-    width: 100%;
-    outline: none;
-    text-transform: uppercase;
-    text-shadow: var(--ethereal-glow);
+    background: transparent; border: none; color: var(--text-color);
+    font-family: var(--font-main); font-size: 1.5rem; font-weight: 900;
+    width: 100%; outline: none; text-transform: uppercase;
 }
 
-/* LINK GRID & BOLD HEADERS */
+/* LINKS: WIDE & BOLD */
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 3rem;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 4rem;
 }
 
 .corp-header {
     font-weight: 900;
-    font-size: 1.2rem;
-    letter-spacing: 5px; /* Extended look */
+    font-size: 1.4rem;
+    letter-spacing: 5px;
     background: var(--text-color);
     color: var(--bg-color);
-    padding: 4px 12px;
-    margin-bottom: 1.5rem;
-    display: table;
+    padding: 5px 15px;
+    margin-bottom: 2rem;
+    display: inline-block;
 }
 
 .link-item {
     display: block;
     color: var(--text-color);
     text-decoration: none;
-    padding: 10px 0;
-    border-bottom: 1px solid rgba(255, 153, 0, 0.2);
+    padding: 15px 0;
+    border-bottom: 2px solid rgba(255, 157, 0, 0.2);
     font-weight: 700;
-    transition: 0.3s;
+    font-size: 1.1rem;
 }
 
 .link-item:hover {
-    background: rgba(255, 153, 0, 0.1);
-    padding-left: 10px;
-    text-shadow: var(--ethereal-glow);
+    background: rgba(255, 157, 0, 0.1);
+    filter: var(--bloom);
 }
 
-/* CRT SCANLINE */
+/* CRT OVERLAY (Adjusted Z-Index) */
 .crt-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%);
     background-size: 100% 4px;
     pointer-events: none;
-    z-index: 9999;
+    z-index: 5; /* Lowered so bloom works */
+    opacity: 0.4;
 }
+
+.blink { animation: blink 1s steps(2, start) infinite; }
+@keyframes blink { to { visibility: hidden; } }
