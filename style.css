@@ -3,150 +3,101 @@
     --text-color: #00ff41;
     --accent-color: #ffb000;
     --font-main: 'Michroma', sans-serif;
+    --glow: 0 0 10px rgba(0, 255, 65, 0.6);
 }
 
-@media (prefers-color-scheme: light) {
-    :root {
-        --bg-color: #2b2200;
-        --text-color: #ffb000;
-        --accent-color: #ffcc00;
-    }
-}
-@media (max-width: 650px) {
-    .header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 5px;
-    }
-    .status-box, .clock {
-        font-size: 0.65rem;
-    }
-    .interface-container {
-        padding: 1rem;
-    }
-}
-
-body {
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    font-family: var(--font-main);
-    text-transform: uppercase;
-    margin: 0;
-    height: 100vh;
+/* HEADER OVERHAUL */
+.os-header {
+    padding: 1rem 2.5rem;
+    border-bottom: 3px solid var(--text-color);
     display: flex;
-    flex-direction: column;
-}
-
-/* SEARCH TERMINAL SECTION */
-.search-container {
-    margin-top: 2rem;
-    display: flex;
+    justify-content: space-between;
     align-items: center;
-    border: 2px solid var(--text-color);
-    padding: 10px;
-    background: rgba(0,0,0,0.3);
+    background: rgba(0, 20, 0, 0.2);
 }
 
-.search-container span { margin-right: 15px;}
+.ticker-container {
+    flex: 1;
+    font-weight: 900;
+    letter-spacing: 2px;
+}
+
+.ticker-content {
+    transition: opacity 1s ease-in-out;
+    text-shadow: var(--glow);
+    font-size: 0.9rem;
+}
+
+.system-meta {
+    text-align: right;
+    font-size: 0.7rem;
+    line-height: 1.4;
+}
+
+/* COMMAND PALETTE - THE NEW CORE */
+.command-palette {
+    margin: 3rem 0;
+    padding: 20px;
+    border: 4px solid var(--text-color);
+    background: #000;
+    display: flex;
+    box-shadow: inset 0 0 15px rgba(0, 255, 65, 0.2);
+}
+
+.command-palette .prompt {
+    font-weight: 900;
+    margin-right: 15px;
+    text-shadow: var(--glow);
+}
 
 #terminal-input {
     background: transparent;
     border: none;
     color: var(--text-color);
     font-family: var(--font-main);
-    font-size: 0.8rem;
+    font-weight: 700;
+    font-size: 1.2rem;
     width: 100%;
     outline: none;
     text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
-/* CRT Overlay */
-
-@keyframes flicker {
-  0% { opacity: 0.27861; }
-  5% { opacity: 0.34769; }
-  10% { opacity: 0.23604; }
-  /* ... you get the idea ... */
-  100% { opacity: 0.25; }
-}
-
-.crt-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
-                linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
-    background-size: 100% 3px, 3px 100%;
-    pointer-events: none;
-    z-index: 100;
-    animation: flicker 0.15s infinite;
-}
-
-.interface-container {
-    padding: 2.5rem;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    z-index: 10;
-}
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    border-bottom: 3px solid var(--text-color);
-    padding-bottom: 0.5rem;
-    font-size: 0.75rem;
-    letter-spacing: 1.5px;
-    gap: 1rem;
-}
-
-.blink { animation: blink-animation 1s steps(5, start) infinite; }
-@keyframes blink-animation { to { visibility: hidden; } }
-
+/* LINK REPOSITORY: CLEANER GRID */
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 3rem;
-    margin-top: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 2rem;
 }
 
-h3 {
-    font-size: 0.9rem;
+h3.corp-header {
+    font-weight: 900;
+    font-size: 0.8rem;
+    letter-spacing: 3px;
     background: var(--text-color);
     color: var(--bg-color);
-    padding: 4px 10px;
-    display: inline-block;
-    margin-bottom: 1.5rem;
+    padding: 5px 10px;
 }
 
 .link-item {
-    display: block;
-    color: var(--text-color);
-    text-decoration: none;
-    padding: 12px 0;
-    border-bottom: 1px solid var(--text-color);
-    font-size: 0.8rem;
-    letter-spacing: 1px;
-    transition: all 0.15s ease;
+    font-weight: 700;
+    border-bottom: 1px solid rgba(0, 255, 65, 0.3);
+    padding: 8px 0;
+    font-size: 0.75rem;
+    opacity: 0.8;
 }
 
 .link-item:hover {
-    padding-left: 15px;
+    opacity: 1;
     background: rgba(0, 255, 65, 0.1);
+    text-shadow: var(--glow);
 }
 
-.terminal-footer {
-    border-top: 1px solid var(--text-color);
-    padding: 1rem 2.5rem;
-    background: rgba(0,0,0,0.5);
+/* CRT SCANLINE REFINEMENT */
+.crt-overlay {
+    /* (Use your existing flicker animation and gradients) */
+    z-index: 9999;
 }
-
-.ticker-content {
-    transition: opacity 1s ease-in-out;
-    font-size: 0.7rem;
-    letter-spacing: 3px;
-    text-align: center;
-}
-
 
 
 
