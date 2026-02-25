@@ -1,53 +1,51 @@
 :root {
-    --bg-color: #030303;
-    --text-color: #00ff41;
-    --accent-color: #ffb000;
+    --bg-color: #0a0800; /* Deep industrial black-brown */
+    --text-color: #ff9900; /* Warm Sodium Lamp / Vintage Amber */
     --font-main: 'Michroma', sans-serif;
-    --glow: 0 0 10px rgba(0, 255, 65, 0.6);
+    --ethereal-glow: 0 0 12px rgba(255, 153, 0, 0.7);
 }
 
-/* HEADER OVERHAUL */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-main);
+    text-transform: uppercase;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+/* HEADER: TOP-LEVEL TICKER */
 .os-header {
-    padding: 1rem 2.5rem;
-    border-bottom: 3px solid var(--text-color);
+    padding: 1.5rem 2rem;
+    border-bottom: 2px solid var(--text-color);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: rgba(0, 20, 0, 0.2);
-}
-
-.ticker-container {
-    flex: 1;
-    font-weight: 900;
-    letter-spacing: 2px;
+    box-shadow: 0 4px 15px rgba(255, 153, 0, 0.1);
 }
 
 .ticker-content {
-    transition: opacity 1s ease-in-out;
-    text-shadow: var(--glow);
-    font-size: 0.9rem;
+    font-weight: 900;
+    letter-spacing: 3px;
+    text-shadow: var(--ethereal-glow);
+    transition: opacity 1.5s ease-in-out;
 }
 
 .system-meta {
     text-align: right;
-    font-size: 0.7rem;
-    line-height: 1.4;
+    font-size: 0.75rem;
+    font-weight: 700;
 }
 
-/* COMMAND PALETTE - THE NEW CORE */
+/* COMMAND PALETTE */
+.interface-container { padding: 2rem; }
+
 .command-palette {
-    margin: 3rem 0;
-    padding: 20px;
-    border: 4px solid var(--text-color);
-    background: #000;
+    margin-bottom: 3rem;
     display: flex;
-    box-shadow: inset 0 0 15px rgba(0, 255, 65, 0.2);
-}
-
-.command-palette .prompt {
-    font-weight: 900;
-    margin-right: 15px;
-    text-shadow: var(--glow);
+    border: 3px solid var(--text-color);
+    padding: 15px;
+    background: rgba(43, 34, 0, 0.3);
 }
 
 #terminal-input {
@@ -55,51 +53,52 @@
     border: none;
     color: var(--text-color);
     font-family: var(--font-main);
-    font-weight: 700;
     font-size: 1.2rem;
     width: 100%;
     outline: none;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    text-shadow: var(--ethereal-glow);
 }
 
-/* LINK REPOSITORY: CLEANER GRID */
+/* LINK GRID & BOLD HEADERS */
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 3rem;
 }
 
-h3.corp-header {
+.corp-header {
     font-weight: 900;
-    font-size: 0.8rem;
-    letter-spacing: 3px;
+    font-size: 1.2rem;
+    letter-spacing: 5px; /* Extended look */
     background: var(--text-color);
     color: var(--bg-color);
-    padding: 5px 10px;
+    padding: 4px 12px;
+    margin-bottom: 1.5rem;
+    display: table;
 }
 
 .link-item {
+    display: block;
+    color: var(--text-color);
+    text-decoration: none;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255, 153, 0, 0.2);
     font-weight: 700;
-    border-bottom: 1px solid rgba(0, 255, 65, 0.3);
-    padding: 8px 0;
-    font-size: 0.75rem;
-    opacity: 0.8;
+    transition: 0.3s;
 }
 
 .link-item:hover {
-    opacity: 1;
-    background: rgba(0, 255, 65, 0.1);
-    text-shadow: var(--glow);
+    background: rgba(255, 153, 0, 0.1);
+    padding-left: 10px;
+    text-shadow: var(--ethereal-glow);
 }
 
-/* CRT SCANLINE REFINEMENT */
+/* CRT SCANLINE */
 .crt-overlay {
-    /* (Use your existing flicker animation and gradients) */
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%);
+    background-size: 100% 4px;
+    pointer-events: none;
     z-index: 9999;
 }
-
-
-
-
-
