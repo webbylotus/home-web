@@ -3,137 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MU/TH/UR_6000</title>
+    <title>MU/TH/UR_6000_OS</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Michroma&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="crt-overlay"></div>
-    <div class="interface-container">
-        
-        <header class="header">
-            <div class="status-box">MU/TH/UR_6000</div>
-            <!--<div class="status-box">MAINFRAME_UPLINK: <span class="blink">ESTABLISHED</span></div>-->
-            <div class="status-box"> MAINFRAME_UPLINK: <span id="server-status" class="blink">CONNECTING...</span></div>
-            <div id="holocene-clock" class="clock">LOAD_TIME...</div>
-        </header>
+    
+    <header class="os-header">
+        <div class="ticker-container">
+            <span id="existential-ticker" class="ticker-content">INITIALIZING...</span>
+        </div>
+        <div class="system-meta">
+            <div id="holocene-clock"></div>
+            <div class="status-box">UPLINK: <span id="server-status" class="blink">SEARCHING</span></div>
+        </div>
+    </header>
 
-        <div class="search-container">
-            <span>QUERY_DB_></span>
-            <input type="text" id="terminal-input" placeholder="WAITING FOR INPUT..." autofocus>
+    <div class="interface-container">
+        <div class="command-palette">
+            <span class="prompt">QUERY_></span>
+            <input type="text" id="terminal-input" placeholder="COMMAND OR SEARCH..." autofocus autocomplete="off">
         </div>
     
         <main id="link-grid" class="grid-container"></main>
-    
-        <footer class="terminal-footer">
-            <div id="existential-ticker" class="ticker-content">...</div>
-        </footer>
     </div>
 
     <script>
-                               // 1. Homelab Ping Logic
-                async function checkHomelab() {
-                    const serverIp = "https://cloud.erucaeutstellae.com";
-                    const statusEl = document.getElementById('server-status');
-                
-                    try {
-                        // We use 'no-cors' because we don't need to read the data, 
-                        // just see if the server responds at all.
-                        await fetch(serverIp, { mode: 'no-cors', cache: 'no-cache' });
-                        statusEl.innerText = "ESTABLISHED";
-                        statusEl.style.color = "var(--text-color)";
-                        statusEl.classList.remove('blink');
-                    } catch (e) {
-                        statusEl.innerText = "OFFLINE";
-                        statusEl.style.color = "var(--accent-color)"; // Turns Amber/Red
-                        statusEl.classList.add('blink');
-                    }
-                }
-                
-                // Run on load and every 30 seconds
-                checkHomelab();
-                setInterval(checkHomelab, 30000);            
-                   // 1. Holocene Clock
-            function updateClock() {
-                const now = new Date();
-                const heYear = (now.getFullYear() + 10000).toLocaleString().replace(',', '');
-                const timeStr = now.toLocaleTimeString('en-GB', { hour12: false });
-                const dateStr = now.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit' });
-                document.getElementById('holocene-clock').innerText = `${heYear}HE // ${dateStr} // ${timeStr}`;
-            }
-            setInterval(updateClock, 1000);
-            
-            // 2. Search Terminal Logic
-            const searchInput = document.getElementById('terminal-input');
-            searchInput.addEventListener('keypress', function (e) {
-                if (e.key === 'Enter' && this.value.trim() !== "") {
+        // --- 1. SEARCH & FILTER LOGIC ---
+        const searchInput = document.getElementById('terminal-input');
+        
+        searchInput.addEventListener('input', function() {
+            const query = this.value.toLowerCase();
+            const items = document.querySelectorAll('.link-item');
+            const sections = document.querySelectorAll('.link-section');
+
+            items.forEach(item => {
+                const isMatch = item.innerText.toLowerCase().includes(query);
+                item.style.display = isMatch ? 'block' : 'none';
+            });
+
+            // Hide headers if no children are visible
+            sections.forEach(section => {
+                const visibleLinks = section.querySelectorAll('.link-item[style="display: block;"]');
+                section.style.display = visibleLinks.length > 0 || query === "" ? 'block' : 'none';
+            });
+        });
+
+        searchInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                const visibleLinks = document.querySelectorAll('.link-item[style="display: block;"]');
+                // If there's exactly one filtered link, open it. Otherwise, search DuckDuckGo.
+                if (visibleLinks.length === 1) {
+                    window.location.href = visibleLinks[0].href;
+                } else {
                     window.open(`https://duckduckgo.com/?q=${encodeURIComponent(this.value)}`, '_blank');
                     this.value = '';
                 }
-            });
-            
-            // 3. Markdown Link Loader
-            async function loadLinks() {
-                const response = await fetch('links.md');
-                const text = await response.text();
-                const grid = document.getElementById('link-grid');
-                const lines = text.split('\n');
-                let currentSection = null;
-            
-                lines.forEach(line => {
-                    if (line.startsWith('## ')) {
-                        currentSection = document.createElement('div');
-                        currentSection.className = 'link-section';
-                        currentSection.innerHTML = `<h3 class="corp-header">${line.replace('## ', '').trim()}</h3>`;
-                        grid.appendChild(currentSection);
-                    } else if (line.startsWith('- [') && currentSection) {
-                        const label = line.match(/\[(.*?)\]/)[1];
-                        const url = line.match(/\((.*?)\)/)[1];
-                        currentSection.innerHTML += `<a href="${url}" class="link-item" tabindex="0">${label}</a>`;
-                    }
-                });
             }
+        });
+
+        // --- 2. RESTORED & RANDOMIZED QUOTES (Top Level) ---
+        async function loadQuotes() {
+            const response = await fetch('quotes.md');
+            const text = await response.text();
+            const quotes = text.split('\n').filter(q => q.trim() !== "");
+            const ticker = document.getElementById('existential-ticker');
             
-            // 4. Pronounced Ticker
-                async function loadQuotes() {
-                    const response = await fetch('quotes.md');
-                    const text = await response.text();
-                    const quotes = text.split('\n').filter(q => q.trim() !== "");
-                    const ticker = document.getElementById('existential-ticker');
-                    
-                    const updateQuote = () => {
-                        // Start Fade Out
-                        ticker.style.opacity = 0;
-                        
-                        setTimeout(() => {
-                            // Pick a random truth while invisible
-                            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-                            ticker.innerText = `> ${randomQuote}`;
-                            
-                            // Fade In
-                            ticker.style.opacity = 1;
-                        }, 1000); // 1 second of "silence" in the dark
-                    };
-                
-                    updateQuote();
-                    setInterval(updateQuote, 8000); // 8 second cycle
-                }
-            
-            loadLinks();
-            loadQuotes();
-            updateClock();
+            const updateQuote = () => {
+                ticker.style.opacity = 0;
+                setTimeout(() => {
+                    const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+                    ticker.innerText = `[ TRUTH_DATA: ${randomQuote} ]`;
+                    ticker.style.opacity = 1;
+                }, 1000);
+            };
+            updateQuote();
+            setInterval(updateQuote, 12000);
+        }
+
+        // --- 3. CORE SYSTEMS (Clock/Ping/Links) ---
+        // (Keep your existing checkHomelab, updateClock, and loadLinks functions)
+        // Ensure loadLinks adds style="display: block;" to all items by default.
+        
+        loadLinks();
+        loadQuotes();
+        updateClock();
+        checkHomelab();
     </script>
 </body>
-
 </html>
-
-
-
-
-
-
-
-
-
-
-
