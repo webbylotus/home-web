@@ -5,6 +5,9 @@
 - [NGINX](https://nginx.erucaeutstellae.com)
 - [RX-RESUME](https://resume.erucaeutstellae.com)
 - [MUSIC](https://music.erucaeutstellae.com)
+- [SAVED TRANSMISSION](https://read.erucaeutstellae.com)
+- [RSS AGGREGATES](https://rss-feedgen.erucaeutstellae.com)
+- [NEWSLETTER AGGREGATES](https://newsletter-feedgen.erucaeutstellae.com)
 
 ## MY_SITES
 - [DOMAIN HOME](https://erucaeutstellae.com)
