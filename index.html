@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MU/TH/UR_6000_OS</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Michroma&display=swap" rel="stylesheet">
+    <!--<link href="https://fonts.googleapis.com/css2?family=Michroma&display=swap" rel="stylesheet">-->
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Russo+One&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="crt-overlay"></div>
@@ -32,6 +33,28 @@
     </div>
 
     <script>
+                // 1. Homelab Ping Logic
+                async function checkHomelab() {
+                    const serverIp = "https://cloud.erucaeutstellae.com";
+                    const statusEl = document.getElementById('server-status');
+                
+                    try {
+                        // We use 'no-cors' because we don't need to read the data, 
+                        // just see if the server responds at all.
+                        await fetch(serverIp, { mode: 'no-cors', cache: 'no-cache' });
+                        statusEl.innerText = "ESTABLISHED";
+                        statusEl.style.color = "var(--text-color)";
+                        statusEl.classList.remove('blink');
+                    } catch (e) {
+                        statusEl.innerText = "OFFLINE";
+                        statusEl.style.color = "var(--accent-color)"; // Turns Amber/Red
+                        statusEl.classList.add('blink');
+                    }
+                }
+                
+                // Run on load and every 30 seconds
+                checkHomelab();
+                setInterval(checkHomelab, 30000);  
         // Holocene Clock
         function updateClock() {
             const now = new Date();
@@ -64,7 +87,7 @@
             const update = () => {
                 ticker.style.opacity = 0;
                 setTimeout(() => {
-                    ticker.innerText = `[ ${quotes[Math.floor(Math.random() * quotes.length)]} ]`;
+                    ticker.innerText = ` ${quotes[Math.floor(Math.random() * quotes.length)]}`;
                     ticker.style.opacity = 1;
                 }, 1000);
             };
@@ -97,3 +120,4 @@
     </script>
 </body>
 </html>
+
