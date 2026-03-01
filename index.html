@@ -37,6 +37,28 @@
     </div>
 
     <script>
+             // 1. Homelab Ping Logic
+                async function checkHomelab() {
+                    const serverIp = "https://cloud.erucaeutstellae.com";
+                    const statusEl = document.getElementById('server-status');
+                
+                    try {
+                        // We use 'no-cors' because we don't need to read the data, 
+                        // just see if the server responds at all.
+                        await fetch(serverIp, { mode: 'no-cors', cache: 'no-cache' });
+                        statusEl.innerText = "ESTABLISHED";
+                        statusEl.style.color = "var(--text-color)";
+                        statusEl.classList.remove('blink');
+                    } catch (e) {
+                        statusEl.innerText = "OFFLINE";
+                        statusEl.style.color = "var(--accent-color)"; // Turns Amber/Red
+                        statusEl.classList.add('blink');
+                    }
+                }
+                
+                // Run on load and every 30 seconds
+                checkHomelab();
+                setInterval(checkHomelab, 30000);    
         // Holocene Clock
         function updateClock() {
             const now = new Date();
@@ -102,3 +124,4 @@
     </script>
 </body>
 </html>
+
