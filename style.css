@@ -75,7 +75,7 @@ body {
 .system-meta-row {
     display: flex;
     justify-content: space-between;
-    font-size: 0.7rem;
+    font-size: 0.9rem;
     border-bottom: 1px solid var(--wy-yellow);
     padding-bottom: 5px;
     margin-bottom: 2rem;
@@ -137,3 +137,4 @@ body {
 
 .blink { animation: blink 1s steps(2, start) infinite; }
 @keyframes blink { to { visibility: hidden; } }
+
