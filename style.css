@@ -1,10 +1,12 @@
+
+
 :root {
     --bg-color: #353535;
-    --wy-yellow: #ffcc00; /* Precise Nostromo Yellow */
-    --wy-white: #dddddd; /* Cold Off-White Terminal text */
-    --font-stocky: 'Squada One', sans-serif;
+    --wy-yellow: #ffcc00; /* Warm Sodium Glow */
+    --wy-white: #dddddd;
+    --font-stocky: 'Archivo Black', sans-serif; /* Less congested */
     --font-wide: 'Syncopate', sans-serif;
-    --bloom: drop-shadow(0 0 6px rgba(255, 204, 0, 0.6));
+    --bloom: drop-shadow(0 0 8px rgba(255, 204, 0, 0.7));
 }
 
 body {
@@ -13,100 +15,68 @@ body {
     font-family: var(--font-stocky);
     text-transform: uppercase;
     margin: 0;
-    overflow-x: hidden;
 }
 
-/* GIF-Inspired Background Grid */
-.grid-background {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background-image: 
-        radial-gradient(rgba(255, 204, 0, 0.05) 1px, transparent 0);
-    background-size: 30px 30px; /* The small crosses/dots from the GIF */
-    pointer-events: none;
-    z-index: 1;
+/* CENTERED HEADER */
+.os-header-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center Alignment */
+    text-align: center;
+    padding: 3rem 1rem;
+    border-bottom: 3px solid var(--wy-yellow);
+    background: linear-gradient(to bottom, #110e00, #050400);
 }
 
-/* WEYLAND YUTANI HEADER */
-.corp-header-main {
-    border-bottom: 2px solid var(--wy-yellow);
-    padding: 2rem;
-    background: #000;
-    z-index: 10;
-    position: relative;
+.wy-ascii-logo {
+    font-family: var(--font-wide);
+    font-size: 3rem;
+    border: 4px solid var(--wy-yellow);
+    padding: 0 20px;
+    margin-bottom: 1rem;
+    filter: var(--bloom);
 }
 
 .wy-logo {
     font-family: var(--font-wide);
-    font-size: 1.5rem;
-    font-weight: 700;
+    font-size: 1.4rem;
     color: var(--wy-yellow);
-    letter-spacing: -1px;
-    filter: var(--bloom);
+    letter-spacing: 2px;
 }
 
 .wy-slogan {
     font-size: 0.7rem;
-    letter-spacing: 4px;
-    margin-top: 4px;
-    color: var(--wy-white);
+    letter-spacing: 6px;
+    margin-top: 5px;
+    opacity: 0.7;
 }
 
 .ticker-box {
-    margin-top: 15px;
-    border: 1px solid rgba(255, 204, 0, 0.3);
-    padding: 8px;
-    background: rgba(255, 204, 0, 0.05);
+    margin-top: 2rem;
+    width: 100%;
+    max-width: 600px;
+    border-top: 1px solid rgba(255, 204, 0, 0.3);
+    padding-top: 1rem;
 }
 
-.ticker-text {
-    font-size: 0.8rem;
-    transition: opacity 1.5s ease;
-    color: var(--wy-yellow);
-    filter: var(--bloom);
-}
-
-/* INTERFACE */
-.interface-container { 
-    padding: 2rem; 
-    z-index: 10; 
-    position: relative; 
-}
-
+/* INCREASED SYSTEM META SIZE */
 .system-meta-row {
     display: flex;
     justify-content: space-between;
-    font-size: 0.9rem;
-    border-bottom: 1px solid var(--wy-yellow);
-    padding-bottom: 5px;
-    margin-bottom: 2rem;
+    font-size: 1rem; /* Increased as requested */
     color: var(--wy-yellow);
-}
-
-.command-palette {
-    border: 2px solid var(--wy-yellow);
-    padding: 15px;
-    background: rgba(0,0,0,0.8);
-    margin-bottom: 3rem;
-}
-
-#terminal-input {
-    background: transparent; border: none; color: var(--wy-white);
-    font-family: var(--font-stocky); font-size: 1.4rem;
-    width: 100%; outline: none; text-transform: uppercase;
-}
-
-/* LINKS: BOLD & INDUSTRIAL */
-.grid-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 3rem;
+    border-bottom: 1px solid var(--wy-yellow);
+    padding: 10px 0;
+    margin-bottom: 2rem;
+    filter: var(--bloom);
 }
 
 .section-title {
     background: var(--wy-yellow);
     color: var(--bg-color);
-    padding: 4px 10px;
-    font-size: 0.9rem;
+    padding: 5px 15px;
+    font-size: 1.1rem;
+    letter-spacing: 2px;
     margin-bottom: 1.5rem;
     display: inline-block;
 }
@@ -115,26 +85,23 @@ body {
     display: block;
     color: var(--wy-white);
     text-decoration: none;
-    padding: 12px 0;
+    padding: 15px 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    font-size: 1.1rem;
+    font-size: 1.2rem;
+    transition: 0.2s ease;
 }
 
 .link-item:hover {
     color: var(--wy-yellow);
-    background: rgba(255, 204, 0, 0.1);
-    filter: var(--bloom);
+    background: rgba(255, 204, 0, 0.05);
+    padding-left: 20px;
 }
 
-/* CRT SCANLINE (GIF STYLE) */
-.crt-overlay {
+/* GIF-STYLE GRID BACKGROUND */
+.grid-background {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%);
-    background-size: 100% 3px;
-    pointer-events: none;
-    z-index: 100;
+    background-image: radial-gradient(rgba(255, 204, 0, 0.08) 1px, transparent 0);
+    background-size: 40px 40px;
+    z-index: -1;
 }
-
-.blink { animation: blink 1s steps(2, start) infinite; }
-@keyframes blink { to { visibility: hidden; } }
 
