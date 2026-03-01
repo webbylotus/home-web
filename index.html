@@ -5,26 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WEYLAND-YUTANI // MU/TH/UR 6000</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Squada+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Archivo+Black&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="crt-overlay"></div>
     <div class="grid-background"></div>
 
-    <header class="corp-header-main">
+    <header class="os-header-center">
+        <div class="wy-ascii-logo">
+            W / Y
+        </div>
         <div class="wy-branding">
             <div class="wy-logo">WEYLAND-YUTANI CORP</div>
             <div class="wy-slogan">"BUILDING BETTER WORLDS"</div>
         </div>
         <div class="ticker-box">
-            <span id="existential-ticker" class="ticker-text">ESTABLISHING NETWORK UPLINK...</span>
+            <span id="existential-ticker" class="ticker-text">CONNECTING TO MAINFRAME...</span>
         </div>
     </header>
 
     <div class="interface-container">
         <div class="system-meta-row">
-            <div class="meta-item">NOSTROMO DEEP SPACE COMMS UPLINK TERMINAL</div>
-            <div class="meta-item status">STATUS: <span id="server-status" class="blink">SEARCHING</span></div>
+            <div class="meta-item">NOSTROMO_DEEP_SPACE_UPLINK</div>
+            <div class="meta-item status">UPLINK: <span id="server-status" class="blink">SEARCHING</span></div>
             <div id="holocene-clock" class="meta-item clock"></div>
         </div>
 
@@ -35,7 +38,7 @@
     
         <main id="link-grid" class="grid-container"></main>
     </div>
-
+    
     <script>
              // 1. Homelab Ping Logic
                 async function checkHomelab() {
@@ -104,18 +107,24 @@
             const response = await fetch('links.md');
             const text = await response.text();
             const grid = document.getElementById('link-grid');
+            grid.innerHTML = ''; // Clear initial state
+            
             text.split('\n').forEach(line => {
                 if (line.startsWith('## ')) {
                     const sec = document.createElement('div');
                     sec.className = 'link-section';
-                    sec.innerHTML = `<h3 class="section-title">${line.replace('## ', '').trim()}</h3>`;
+                    sec.innerHTML = `<h3 class="section-title">${line.replace('## ', '').trim()}</h3><div class="link-list"></div>`;
                     grid.appendChild(sec);
-                } else if (line.startsWith('- [')) {
+                } else if (line.startsWith('- [') && grid.lastElementChild) {
                     const label = line.match(/\[(.*?)\]/);
                     const url = line.match(/\((.*?)\)/);
+                    const list = grid.lastElementChild.querySelector('.link-list');
                     const a = document.createElement('a');
-                    a.href = url; a.className = 'link-item'; a.innerText = label; a.target = "_blank";
-                    grid.lastElementChild.appendChild(a);
+                    a.href = url; 
+                    a.className = 'link-item'; 
+                    a.innerText = label; // Fixed: avoid appending to innerHTML directly
+                    a.target = "_blank";
+                    list.appendChild(a);
                 }
             });
         }
@@ -124,5 +133,6 @@
     </script>
 </body>
 </html>
+
 
 
