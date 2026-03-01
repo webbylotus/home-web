@@ -30,14 +30,22 @@ body {
 .corp-header-main {
     display: flex;
     flex-direction: column;
-    border-bottom: 2px solid var(--wy-yellow);
-    padding: 2rem;
+    align-items: center; /* Center Alignment */
+    text-align: center;
+    padding: 3rem 1rem;
+    border-bottom: 3px solid var(--wy-yellow);
     background: #000;
     z-index: 10;
     position: relative;
-    align-items: center; /* Center Alignment */
-    text-align: center;
-    
+}
+
+.wy-logo {
+    font-family: var(--font-wide);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--wy-yellow);
+    letter-spacing: -1px;
+    filter: var(--bloom);
 }
 
 .wy-slogan {
@@ -71,12 +79,11 @@ body {
 .system-meta-row {
     display: flex;
     justify-content: space-between;
-    font-size: 1rem; /* Increased as requested */
-    color: var(--wy-yellow);
+    font-size: 1rem;
     border-bottom: 1px solid var(--wy-yellow);
-    padding: 10px 0;
+    padding-bottom: 5px;
     margin-bottom: 2rem;
-    filter: var(--bloom);
+    color: var(--wy-yellow);
 }
 
 .command-palette {
@@ -134,4 +141,3 @@ body {
 
 .blink { animation: blink 1s steps(2, start) infinite; }
 @keyframes blink { to { visibility: hidden; } }
-
