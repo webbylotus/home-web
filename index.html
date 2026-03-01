@@ -11,33 +11,33 @@
     <div class="crt-overlay"></div>
     <div class="grid-background"></div>
 
-    <header class="os-header-center">
+    <header class="corp-header-main">
         <div class="wy-branding">
             <div class="wy-logo">WEYLAND-YUTANI CORP</div>
             <div class="wy-slogan">"BUILDING BETTER WORLDS"</div>
         </div>
         <div class="ticker-box">
-            <span id="existential-ticker" class="ticker-text">CONNECTING TO MAINFRAME...</span>
+            <span id="existential-ticker" class="ticker-text">ESTABLISHING NETWORK UPLINK...</span>
         </div>
     </header>
 
     <div class="interface-container">
         <div class="system-meta-row">
-            <div class="meta-item">NOSTROMO_DEEP_SPACE_UPLINK</div>
-            <div class="meta-item status">UPLINK: <span id="server-status" class="blink">SEARCHING</span></div>
+            <div class="meta-item">NOSTROMO DEEP SPACE COMMS UPLINK TERMINAL</div>
+            <div class="meta-item status">STATUS: <span id="server-status" class="blink">SEARCHING</span></div>
             <div id="holocene-clock" class="meta-item clock"></div>
         </div>
 
         <div class="command-palette">
-            <span class="prompt">> MU/TH/UR CORE:</span>
+            <span class="prompt">> MU/TH/UR_CORE:</span>
             <input type="text" id="terminal-input" placeholder="WAITING FOR QUERY..." autofocus autocomplete="off">
         </div>
     
         <main id="link-grid" class="grid-container"></main>
     </div>
-    
+
     <script>
-             // 1. Homelab Ping Logic
+                // 1. Homelab Ping Logic
                 async function checkHomelab() {
                     const serverIp = "https://cloud.erucaeutstellae.com";
                     const statusEl = document.getElementById('server-status');
@@ -99,38 +99,29 @@
             setInterval(update, 10000);
         }
 
-        // Link Loader
-        async function loadLinks() {
-            const response = await fetch('links.md');
-            const text = await response.text();
-            const grid = document.getElementById('link-grid');
-            grid.innerHTML = ''; // Clear initial state
+            // 3. Markdown Link Loader
+            async function loadLinks() {
+                const response = await fetch('links.md');
+                const text = await response.text();
+                const grid = document.getElementById('link-grid');
+                const lines = text.split('\n');
+                let currentSection = null;
             
-            text.split('\n').forEach(line => {
-                if (line.startsWith('## ')) {
-                    const sec = document.createElement('div');
-                    sec.className = 'link-section';
-                    sec.innerHTML = `<h3 class="section-title">${line.replace('## ', '').trim()}</h3><div class="link-list"></div>`;
-                    grid.appendChild(sec);
-                } else if (line.startsWith('- [') && grid.lastElementChild) {
-                    const label = line.match(/\[(.*?)\]/);
-                    const url = line.match(/\((.*?)\)/);
-                    const list = grid.lastElementChild.querySelector('.link-list');
-                    const a = document.createElement('a');
-                    a.href = url; 
-                    a.className = 'link-item'; 
-                    a.innerText = label; // Fixed: avoid appending to innerHTML directly
-                    a.target = "_blank";
-                    list.appendChild(a);
-                }
-            });
-        }
+                lines.forEach(line => {
+                    if (line.startsWith('## ')) {
+                        currentSection = document.createElement('div');
+                        currentSection.className = 'link-section';
+                        currentSection.innerHTML = `<h3 class="corp-header">${line.replace('## ', '').trim()}</h3>`;
+                        grid.appendChild(currentSection);
+                    } else if (line.startsWith('- [') && currentSection) {
+                        const label = line.match(/\[(.*?)\]/)[1];
+                        const url = line.match(/\((.*?)\)/)[1];
+                        currentSection.innerHTML += `<a href="${url}" class="link-item" tabindex="0">${label}</a>`;
+                    }
+                });
+            }
 
         updateClock(); loadQuotes(); loadLinks();
     </script>
 </body>
 </html>
-
-
-
-
